@@ -1,4 +1,4 @@
-package muhammadnaveed.fyp;
+package muhammadnaveed.fyp.DataObjects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
