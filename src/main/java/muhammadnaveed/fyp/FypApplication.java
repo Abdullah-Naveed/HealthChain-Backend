@@ -9,4 +9,5 @@ public class FypApplication {
     public static void main(String[] args) {
         SpringApplication.run(FypApplication.class, args);
     }
+
 }
