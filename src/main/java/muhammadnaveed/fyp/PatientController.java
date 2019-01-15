@@ -40,6 +40,7 @@ public class PatientController {
         String nationality;
         String ppsNumber;
         String gpNumber;
+        String ethAddress;
 
         try {
             JsonParser parser = new JsonParser();
@@ -54,8 +55,9 @@ public class PatientController {
             nationality = jsonObj.get("nationality").getAsString();
             ppsNumber = jsonObj.get("pps").getAsString();
             gpNumber = jsonObj.get("gpNumber").getAsString();
+            ethAddress = jsonObj.get("ethAddress").getAsString();
 
-            Patient patient = new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, null);
+            Patient patient = new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, ethAddress,null);
             patientRepository.save(patient);
 
             return ResponseEntity.accepted().build();

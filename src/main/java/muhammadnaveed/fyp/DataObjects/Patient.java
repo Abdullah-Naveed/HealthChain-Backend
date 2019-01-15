@@ -19,9 +19,10 @@ public class Patient {
     private String nationality;
     private String ppsNumber;
     private String gpNumber;
+    private String ethAddress;
     private List<MedicalRecord> medicalRecords;
 
-    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, List<MedicalRecord> medicalRecords) {
+    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress, List<MedicalRecord> medicalRecords) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -30,6 +31,7 @@ public class Patient {
         this.nationality = nationality;
         this.ppsNumber = ppsNumber;
         this.gpNumber = gpNumber;
+        this.ethAddress = ethAddress;
         this.medicalRecords = medicalRecords;
     }
 
@@ -64,6 +66,10 @@ public class Patient {
     public String getGpNumber() { return gpNumber; }
 
     public void setGpNumber(String gpNumber) { this.gpNumber = gpNumber; }
+
+    public String getEthAddress() { return ethAddress; }
+
+    public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
 
     public List<MedicalRecord> getMedicalRecords() { return medicalRecords; }
 

@@ -2,6 +2,7 @@ package muhammadnaveed.fyp.DataObjects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -10,20 +11,23 @@ public class GP {
 
     @Id
     private String id;
+    @Field
     private String name;
     private int age;
-    private int gpNumber;
+    private String gpNumber;
     private String gender;
     private String address;
+    private String ethAddress;
     private List<Patient> patients;
 
-    public GP(String id, String name, int age, int gpNumber, String gender, String address, List<Patient> patients) {
+    public GP(String id, String name, int age, String gpNumber, String gender, String address, String ethAddress, List<Patient> patients) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gpNumber = gpNumber;
         this.gender = gender;
         this.address = address;
+        this.ethAddress = ethAddress;
         this.patients = patients;
     }
 
@@ -51,17 +55,22 @@ public class GP {
 
     public void setAddress(String address) { this.address = address; }
 
-    public int getGpNumber() { return gpNumber; }
+    public String getGpNumber() { return gpNumber; }
 
-    public void setGpNumber(int gpNumber) { this.gpNumber = gpNumber; }
+    public void setGpNumber(String gpNumber) { this.gpNumber = gpNumber; }
+
+    public String getEthAddress() { return ethAddress; }
+
+    public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
 
     public List<Patient> getPatients() { return patients; }
 
     public void setPatients(List<Patient> patients) { this.patients = patients; }
 
     public GP addPatient(Patient patient) {
+        //TODO each GP needs its own GP number
         this.patients.add(patient);
-        patient.setGpNumber(this);
+        patient.setGpNumber("");
         return this;
     }
 
