@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import muhammadnaveed.fyp.DataObjects.GP;
 import muhammadnaveed.fyp.Repositories.GPRepository;
+import muhammadnaveed.fyp.Repositories.PatientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,34 @@ import java.io.StringReader;
 public class GPController {
 
     private GPRepository gpRepository;
+    private PatientRepository patientRepository;
 
 
-    public GPController(GPRepository gpRepository){
+    public GPController(GPRepository gpRepository, PatientRepository patientRepository){
         this.gpRepository = gpRepository;
+        this.patientRepository = patientRepository;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/userInfo")
+    public Boolean gpInfo(@RequestParam(value = "userName") String userName) {
+        UserStatus userStatus = UserStatus.getInstance();
+
+        if(userName.startsWith("Dr")){
+            if(userName.equals(gpRepository.findByName(userName).getName())){
+                userStatus.setUserName(userName);
+                return true;
+            }else{
+                return false;
+            }
+        }else {
+            if (userName.equals(patientRepository.findByName(userName).getName())) {
+                userStatus.setUserName(userName);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     //just make 2 GP accounts using postman
