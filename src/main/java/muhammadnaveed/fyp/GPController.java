@@ -46,6 +46,14 @@ public class GPController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/logout")
+    public void logout() {
+        UserStatus userStatus = UserStatus.getInstance();
+        userStatus.setUserName("");
+    }
+
+
     //just make 2 GP accounts using postman
     @PostMapping(value = "/addGP", consumes = "application/json")
     public ResponseEntity addGP(@RequestBody String json){
