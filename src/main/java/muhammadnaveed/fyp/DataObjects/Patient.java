@@ -2,29 +2,35 @@ package muhammadnaveed.fyp.DataObjects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.List;
 
 @Document(collection = "Patients")
 public class Patient {
 
     @Id
     private String id;
+    @Field
     private String name;
     private int age;
-    private String sex;
+    private String gender;
     private String address;
     private String nationality;
     private String ppsNumber;
-    private GP gp;
+    private String gpNumber;
+    private List<MedicalRecord> medicalRecords;
 
-    public Patient(String id, String name, int age, String sex, String address, String nationality, String ppsNumber, GP gp) {
+    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, List<MedicalRecord> medicalRecords) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.sex = sex;
+        this.gender = gender;
         this.address = address;
         this.nationality = nationality;
         this.ppsNumber = ppsNumber;
-        this.gp = gp;
+        this.gpNumber = gpNumber;
+        this.medicalRecords = medicalRecords;
     }
 
     public String getId() { return id; }
@@ -39,9 +45,9 @@ public class Patient {
 
     public void setAge(int age) { this.age = age; }
 
-    public String getSex() { return sex; }
+    public String getGender() { return gender; }
 
-    public void setSex(String sex) { this.sex = sex; }
+    public void setGender(String gender) { this.gender = gender; }
 
     public String getAddress() { return address; }
 
@@ -55,9 +61,13 @@ public class Patient {
 
     public void setPpsNumber(String ppsNumber) { this.ppsNumber = ppsNumber; }
 
-    public GP getGp() { return gp; }
+    public String getGpNumber() { return gpNumber; }
 
-    public void setGp(GP gp) { this.gp = gp; }
+    public void setGpNumber(String gpNumber) { this.gpNumber = gpNumber; }
+
+    public List<MedicalRecord> getMedicalRecords() { return medicalRecords; }
+
+    public void setMedicalRecords(List<MedicalRecord> medicalRecords) { this.medicalRecords = medicalRecords; }
 
     @Override
     public String toString() {
@@ -65,11 +75,11 @@ public class Patient {
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
                 ", age=" + getAge() +
-                ", sex='" + getSex() + "'" +
+                ", gender='" + getGender() + "'" +
                 ", address='" + getAddress() + "'" +
                 ", nationality='" + getNationality() + "'" +
                 ", ppsNumber='" + getPpsNumber() + "'" +
-                ", gp='" + getGp() + "'" +
+                ", gpNumber='" + getGpNumber() + "'" +
                 "}";
     }
 }

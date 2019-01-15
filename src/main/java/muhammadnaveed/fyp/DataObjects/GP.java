@@ -13,16 +13,16 @@ public class GP {
     private String name;
     private int age;
     private int gpNumber;
-    private String sex;
+    private String gender;
     private String address;
     private List<Patient> patients;
 
-    public GP(String id, String name, int age, int gpNumber, String sex, String address, List<Patient> patients) {
+    public GP(String id, String name, int age, int gpNumber, String gender, String address, List<Patient> patients) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gpNumber = gpNumber;
-        this.sex = sex;
+        this.gender = gender;
         this.address = address;
         this.patients = patients;
     }
@@ -43,9 +43,9 @@ public class GP {
 
     public void setAge(int age) { this.age = age; }
 
-    public String getSex() { return sex; }
+    public String getGender() { return gender; }
 
-    public void setSex(String sex) { this.sex = sex; }
+    public void setGender(String gender) { this.gender = gender; }
 
     public String getAddress() { return address; }
 
@@ -61,13 +61,13 @@ public class GP {
 
     public GP addPatient(Patient patient) {
         this.patients.add(patient);
-        patient.setGp(this);
+        patient.setGpNumber(this);
         return this;
     }
 
     public GP removePatient(Patient patient) {
         this.patients.remove(patient);
-        patient.setGp(null);
+        patient.setGpNumber(null);
         return this;
     }
 
@@ -77,7 +77,7 @@ public class GP {
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
                 ", age=" + getAge() +
-                ", sex=" + getSex() +
+                ", gender=" + getGender() +
                 ", gpNumber=" + getGpNumber() +
                 ", address='" + getAddress() + "'" +
                 ", patients='" + getPatients() + "'" +
