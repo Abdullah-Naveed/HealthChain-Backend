@@ -3,7 +3,6 @@ package muhammadnaveed.fyp;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import muhammadnaveed.fyp.DataObjects.MedicalRecord;
 import muhammadnaveed.fyp.DataObjects.Patient;
 import muhammadnaveed.fyp.Repositories.PatientRepository;
 import org.springframework.http.ResponseEntity;

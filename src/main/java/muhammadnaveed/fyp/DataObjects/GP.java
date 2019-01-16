@@ -68,9 +68,8 @@ public class GP {
     public void setPatients(List<Patient> patients) { this.patients = patients; }
 
     public GP addPatient(Patient patient) {
-        //TODO each GP needs its own GP number
         this.patients.add(patient);
-        patient.setGpNumber("");
+        patient.setGpNumber(this.gpNumber);
         return this;
     }
 
