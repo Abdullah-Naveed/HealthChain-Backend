@@ -1,5 +1,7 @@
 package muhammadnaveed.fyp;
 
+import muhammadnaveed.fyp.DataObjects.GP;
+import muhammadnaveed.fyp.DataObjects.Patient;
 import muhammadnaveed.fyp.Repositories.GPRepository;
 import muhammadnaveed.fyp.Repositories.PatientRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,7 +45,6 @@ public class UserController {
 
     }
 
-
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/logout")
     public void logout() {
@@ -58,5 +59,19 @@ public class UserController {
         return userStatus.getUserName();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getUserEthAddress")
+    public String getUserEthAddress(@RequestParam(value = "userName") String userName) {
+        GP gp;
+        Patient patient;
+
+        if (userName.startsWith("Dr")) {
+            gp = gpRepository.findByName(userName);
+            return gp.getEthAddress();
+        }else{
+            patient = patientRepository.findByName(userName);
+            return patient.getEthAddress();
+        }
+    }
 
 }
