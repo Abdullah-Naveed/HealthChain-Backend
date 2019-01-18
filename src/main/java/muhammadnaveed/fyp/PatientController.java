@@ -31,33 +31,26 @@ public class PatientController {
     @PostMapping(value = "/addPatient", consumes = "application/json")
     public ResponseEntity addPatient(@RequestBody String json) {
         JsonObject jsonObj;
-        String id;
-        String name;
-        int age;
-        String gender;
-        String address;
-        String nationality;
-        String ppsNumber;
-        String gpNumber;
-        String ethAddress;
+        Patient.PatientBuilder patientBuilder = new Patient.PatientBuilder();
 
         try {
             JsonParser parser = new JsonParser();
             JsonReader reader = new JsonReader(new StringReader(json));
             reader.setLenient(true);
             jsonObj = parser.parse(json).getAsJsonObject();
-            id = jsonObj.get("id").getAsString();
-            name = jsonObj.get("name").getAsString();
-            age = jsonObj.get("age").getAsInt();
-            gender = jsonObj.get("gender").getAsString();
-            address = jsonObj.get("address").getAsString();
-            nationality = jsonObj.get("nationality").getAsString();
-            ppsNumber = jsonObj.get("pps").getAsString();
-            gpNumber = jsonObj.get("gpNumber").getAsString();
-            ethAddress = jsonObj.get("ethAddress").getAsString();
+            String gpNumber = jsonObj.get("gpNumber").getAsString();
 
-            Patient patient = new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, ethAddress,null);
-            patientRepository.save(patient);
+            patientBuilder.id(jsonObj.get("id").getAsString())
+                    .name(jsonObj.get("name").getAsString())
+                    .age(jsonObj.get("age").getAsInt())
+                    .gender(jsonObj.get("gender").getAsString())
+                    .address(jsonObj.get("address").getAsString())
+                    .nationality(jsonObj.get("nationality").getAsString())
+                    .ppsNumber(jsonObj.get("pps").getAsString())
+                    .gpNumber(gpNumber)
+                    .ethAddress(jsonObj.get("ethAddress").getAsString());
+
+            patientRepository.save(patientBuilder.build());
 
             return ResponseEntity.accepted().build();
 

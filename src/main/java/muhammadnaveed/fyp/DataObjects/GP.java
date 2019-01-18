@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "GPs")
@@ -20,7 +21,8 @@ public class GP {
     private String ethAddress;
     private List<Patient> patients;
 
-    public GP(String id, String name, int age, String gpNumber, String gender, String address, String ethAddress, List<Patient> patients) {
+    public GP(String id, String name, int age, String gpNumber, String gender, String address, String ethAddress) {
+        this.patients = new ArrayList<>();
         this.id = id;
         this.name = name;
         this.age = age;
@@ -28,7 +30,6 @@ public class GP {
         this.gender = gender;
         this.address = address;
         this.ethAddress = ethAddress;
-        this.patients = patients;
     }
 
     public String getId() {
@@ -69,7 +70,6 @@ public class GP {
 
     public GP addPatient(Patient patient) {
         this.patients.add(patient);
-        patient.setGpNumber(this.gpNumber);
         return this;
     }
 
@@ -85,9 +85,10 @@ public class GP {
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
                 ", age=" + getAge() +
-                ", gender=" + getGender() +
                 ", gpNumber=" + getGpNumber() +
+                ", gender=" + getGender() +
                 ", address='" + getAddress() + "'" +
+                ", ethAddress='" + getEthAddress() + "'" +
                 ", patients='" + getPatients() + "'" +
                 "}";
     }

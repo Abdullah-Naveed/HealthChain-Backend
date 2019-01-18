@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "Patients")
@@ -20,9 +21,10 @@ public class Patient {
     private String ppsNumber;
     private String gpNumber;
     private String ethAddress;
-    private List<MedicalRecord> medicalRecords;
+    private ArrayList<String> txIds; //these are the tx ids from storing data on the blockchain
 
-    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress, List<MedicalRecord> medicalRecords) {
+    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress) {
+        this.txIds = new ArrayList<>();
         this.id = id;
         this.name = name;
         this.age = age;
@@ -32,7 +34,6 @@ public class Patient {
         this.ppsNumber = ppsNumber;
         this.gpNumber = gpNumber;
         this.ethAddress = ethAddress;
-        this.medicalRecords = medicalRecords;
     }
 
     public String getId() { return id; }
@@ -71,9 +72,11 @@ public class Patient {
 
     public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
 
-    public List<MedicalRecord> getMedicalRecords() { return medicalRecords; }
+    public List<String> getTxIds() { return this.txIds; }
 
-    public void setMedicalRecords(List<MedicalRecord> medicalRecords) { this.medicalRecords = medicalRecords; }
+    public void setTxIds(ArrayList<String> txIds) { this.txIds = txIds; }
+
+    public void addTxId(String txId) { this.txIds.add(txId); }
 
     @Override
     public String toString() {
@@ -86,6 +89,87 @@ public class Patient {
                 ", nationality='" + getNationality() + "'" +
                 ", ppsNumber='" + getPpsNumber() + "'" +
                 ", gpNumber='" + getGpNumber() + "'" +
+                ", ethAddress='" + getEthAddress() + "'" +
+                ", txIds='" + getTxIds() + "'" +
                 "}";
+    }
+
+    public static final class PatientBuilder {
+        private String id;
+        private String name;
+        private int age;
+        private String gender;
+        private String address;
+        private String nationality;
+        private String ppsNumber;
+        private String gpNumber;
+        private String ethAddress;
+        private List<String> txIds; //these are the tx ids from storing data on the blockchain
+
+        public PatientBuilder() {
+        }
+
+        public static PatientBuilder aPatient() {
+            return new PatientBuilder();
+        }
+
+        public PatientBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public PatientBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PatientBuilder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public PatientBuilder gender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public PatientBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public PatientBuilder nationality(String nationality) {
+            this.nationality = nationality;
+            return this;
+        }
+
+        public PatientBuilder ppsNumber(String ppsNumber) {
+            this.ppsNumber = ppsNumber;
+            return this;
+        }
+
+        public PatientBuilder gpNumber(String gpNumber) {
+            this.gpNumber = gpNumber;
+            return this;
+        }
+
+        public PatientBuilder ethAddress(String ethAddress) {
+            this.ethAddress = ethAddress;
+            return this;
+        }
+
+        public PatientBuilder txIds(List<String> txIds) {
+            this.txIds = txIds;
+            return this;
+        }
+
+        public PatientBuilder addTxId(String txId) {
+            this.txIds.add(txId);
+            return this;
+        }
+
+        public Patient build() {
+            return new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, ethAddress);
+        }
     }
 }

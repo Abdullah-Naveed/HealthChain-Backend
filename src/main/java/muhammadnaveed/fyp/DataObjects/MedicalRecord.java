@@ -4,18 +4,26 @@ import java.time.LocalDate;
 
 public class MedicalRecord {
 
+    private String patientsPPS;
     private String conditionName;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate issueDate;
     private String gpNumber;
     private String comments;
 
-    public MedicalRecord(String conditionName, LocalDate startDate, LocalDate endDate, String gpNumber, String comments) {
+    public MedicalRecord(String patientsPPS, String conditionName, LocalDate issueDate, String gpNumber, String comments) {
+        this.patientsPPS = patientsPPS;
         this.conditionName = conditionName;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.issueDate = issueDate;
         this.gpNumber = gpNumber;
         this.comments = comments;
+    }
+
+    public String getPatientsPPS() {
+        return patientsPPS;
+    }
+
+    public void setPatientsPPS(String patientsPPS) {
+        this.patientsPPS = patientsPPS;
     }
 
     public String getConditionName() {
@@ -26,20 +34,12 @@ public class MedicalRecord {
         this.conditionName = conditionName;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getIssueDate() {
+        return issueDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
     }
 
     public String getGpNumber() {
@@ -59,9 +59,9 @@ public class MedicalRecord {
     }
 
     public static final class Builder {
+        private String patientsPPS;
         private String conditionName;
-        private LocalDate startDate;
-        private LocalDate endDate;
+        private LocalDate issueDate;
         private String gpNumber;
         private String comments;
 
@@ -72,18 +72,18 @@ public class MedicalRecord {
             return new Builder();
         }
 
+        public Builder patientsPPS(String patientsPPS) {
+            this.patientsPPS = patientsPPS;
+            return this;
+        }
+
         public Builder conditionName(String conditionName) {
             this.conditionName = conditionName;
             return this;
         }
 
-        public Builder startDate(LocalDate startDate) {
-            this.startDate = startDate;
-            return this;
-        }
-
-        public Builder endDate(LocalDate endDate) {
-            this.endDate = endDate;
+        public Builder issueDate(LocalDate issueDate) {
+            this.issueDate = issueDate;
             return this;
         }
 
@@ -98,7 +98,7 @@ public class MedicalRecord {
         }
 
         public MedicalRecord build() {
-            return new MedicalRecord(conditionName, startDate, endDate, gpNumber, comments);
+            return new MedicalRecord(patientsPPS, conditionName, issueDate, gpNumber, comments);
         }
     }
 }
