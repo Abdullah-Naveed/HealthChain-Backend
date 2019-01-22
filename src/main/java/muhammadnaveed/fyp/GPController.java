@@ -40,6 +40,22 @@ public class GPController {
         return json;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getListOfPatients")
+    public String getListOfPatients(@RequestParam(value = "userName") String userName){
+        String json = "";
+        GP gp = gpRepository.findByName(userName);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+        try {
+            json = ow.writeValueAsString(gp.getPatients());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
     //TODO need to make sure they are created on start of application!
     @PostMapping(value = "/addGP", consumes = "application/json")
     public ResponseEntity addGP(@RequestBody String json){
