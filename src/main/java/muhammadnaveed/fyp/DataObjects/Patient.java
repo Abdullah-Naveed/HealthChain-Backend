@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @Document(collection = "Patients")
 public class Patient {
@@ -21,10 +21,11 @@ public class Patient {
     private String ppsNumber;
     private String gpNumber;
     private String ethAddress;
-    private ArrayList<String> txIds; //these are the tx ids from storing data on the blockchain
+    private String secretKey;
+    private ArrayList<HashMap<String, String>> trustedGPs;
 
     public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress) {
-        this.txIds = new ArrayList<>();
+        this.trustedGPs = new ArrayList<>();
         this.id = id;
         this.name = name;
         this.age = age;
@@ -72,11 +73,19 @@ public class Patient {
 
     public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
 
-    public List<String> getTxIds() { return this.txIds; }
+    public String getSecretKey() { return secretKey; }
 
-    public void setTxIds(ArrayList<String> txIds) { this.txIds = txIds; }
+    public void setSecretKey(String secretKey) { this.secretKey = secretKey; }
 
-    public void addTxId(String txId) { this.txIds.add(txId); }
+    public ArrayList<HashMap<String, String>> getTrustedGPs() { return trustedGPs; }
+
+    public void setTrustedGPs(ArrayList<HashMap<String, String>> trustedGPs) { this.trustedGPs = trustedGPs; }
+
+    public void addTrustedGP(String GPName, String GPEthAddress){
+        HashMap<String, String> map = new HashMap<>();
+        map.put(GPName, GPEthAddress);
+        this.trustedGPs.add(map);
+    }
 
     @Override
     public String toString() {
@@ -90,7 +99,7 @@ public class Patient {
                 ", ppsNumber='" + getPpsNumber() + "'" +
                 ", gpNumber='" + getGpNumber() + "'" +
                 ", ethAddress='" + getEthAddress() + "'" +
-                ", txIds='" + getTxIds() + "'" +
+                ", trustedGPs='" + getTrustedGPs() + "'" +
                 "}";
     }
 
@@ -104,13 +113,8 @@ public class Patient {
         private String ppsNumber;
         private String gpNumber;
         private String ethAddress;
-        private List<String> txIds; //these are the tx ids from storing data on the blockchain
 
         public PatientBuilder() {
-        }
-
-        public static PatientBuilder aPatient() {
-            return new PatientBuilder();
         }
 
         public PatientBuilder id(String id) {
@@ -155,16 +159,6 @@ public class Patient {
 
         public PatientBuilder ethAddress(String ethAddress) {
             this.ethAddress = ethAddress;
-            return this;
-        }
-
-        public PatientBuilder txIds(List<String> txIds) {
-            this.txIds = txIds;
-            return this;
-        }
-
-        public PatientBuilder addTxId(String txId) {
-            this.txIds.add(txId);
             return this;
         }
 

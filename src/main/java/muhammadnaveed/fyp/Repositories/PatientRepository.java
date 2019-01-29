@@ -9,4 +9,6 @@ public interface PatientRepository extends MongoRepository<Patient, String> {
 
     Patient findByName(String name);
 
+    Patient findByPpsNumber(String ppsNumber);
+
 }

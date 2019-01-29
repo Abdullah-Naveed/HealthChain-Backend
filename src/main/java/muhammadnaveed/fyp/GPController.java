@@ -130,4 +130,11 @@ public class GPController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getEthAddress")
+    public String getEthAddress(@RequestParam(value = "userName") String userName){
+        GP gp = gpRepository.findByName(userName);
+        return gp.getEthAddress();
+    }
+
 }

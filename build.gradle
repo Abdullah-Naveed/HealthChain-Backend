@@ -4,6 +4,7 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -28,5 +29,6 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('com.google.code.gson:gson:2.8.2')
+    implementation('com.google.crypto.tink:tink-android:HEAD-SNAPSHOT')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
