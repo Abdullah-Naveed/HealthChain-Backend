@@ -138,7 +138,6 @@ public class PatientController {
     @PostMapping(value = "/encryptRecord")
     public String encryptMedicalRecord(@RequestBody String json) {
         JsonObject jsonObj;
-        String encryptedRecord;
         String encryptedDocument;
         Encryption enc = new Encryption();
 
