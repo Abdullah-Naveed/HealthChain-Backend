@@ -24,7 +24,7 @@ public class Patient {
     private String secretKey;
     private ArrayList<HashMap<String, String>> trustedGPs;
 
-    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress) {
+    public Patient(String id, String name, int age, String gender, String address, String nationality, String ppsNumber, String gpNumber, String ethAddress, String secretKey) {
         this.trustedGPs = new ArrayList<>();
         this.id = id;
         this.name = name;
@@ -35,6 +35,7 @@ public class Patient {
         this.ppsNumber = ppsNumber;
         this.gpNumber = gpNumber;
         this.ethAddress = ethAddress;
+        this.secretKey = secretKey;
     }
 
     public String getId() { return id; }
@@ -113,6 +114,7 @@ public class Patient {
         private String ppsNumber;
         private String gpNumber;
         private String ethAddress;
+        private String secretKey;
 
         public PatientBuilder() {
         }
@@ -162,8 +164,12 @@ public class Patient {
             return this;
         }
 
+        public void secretKey(String secretKey) {
+            this.secretKey = secretKey;
+        }
+
         public Patient build() {
-            return new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, ethAddress);
+            return new Patient(id, name, age, gender, address, nationality, ppsNumber, gpNumber, ethAddress, secretKey);
         }
     }
 }

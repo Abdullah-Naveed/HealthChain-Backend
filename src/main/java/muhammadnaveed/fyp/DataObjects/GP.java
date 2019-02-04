@@ -68,9 +68,8 @@ public class GP {
 
     public void setPatients(List<Patient> patients) { this.patients = patients; }
 
-    public GP addPatient(Patient patient) {
+    public void addPatient(Patient patient) {
         this.patients.add(patient);
-        return this;
     }
 
     public GP removePatient(Patient patient) {
@@ -93,4 +92,55 @@ public class GP {
                 "}";
     }
 
+
+    public static final class GPBuilder {
+        private String id;
+        private String name;
+        private int age;
+        private String gpNumber;
+        private String gender;
+        private String address;
+        private String ethAddress;
+
+        public GPBuilder() {
+        }
+
+        public GPBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public GPBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public GPBuilder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public void gpNumber(String gpNumber) {
+            this.gpNumber = gpNumber;
+        }
+
+        public GPBuilder gender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public GPBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public GPBuilder ethAddress(String ethAddress) {
+            this.ethAddress = ethAddress;
+            return this;
+        }
+
+        public GP build() {
+            return new GP(id, name, age, gpNumber, gender, address, ethAddress);
+        }
+    }
 }
