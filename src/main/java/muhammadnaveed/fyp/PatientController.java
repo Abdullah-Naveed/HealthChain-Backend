@@ -33,50 +33,6 @@ public class PatientController {
         return patientRepository.findByName(userName);
     }
 
-//    @CrossOrigin(origins = "http://localhost:3000")
-//    @PostMapping(value = "/addPatient", consumes = "application/json")
-//    public ResponseEntity addPatient(@RequestBody String json) {
-//        JsonObject jsonObj;
-//        Patient.PatientBuilder patientBuilder = new Patient.PatientBuilder();
-//
-//        try {
-//            JsonParser parser = new JsonParser();
-//            JsonReader reader = new JsonReader(new StringReader(json));
-//            reader.setLenient(true);
-//            jsonObj = parser.parse(json).getAsJsonObject();
-//            String gpNumber = jsonObj.get("gpNumber").getAsString();
-//            String gpName = jsonObj.get("gpName").getAsString();
-//            String gpEthAddress = jsonObj.get("gpEthAddress").getAsString();
-//            String userName = jsonObj.get("name").getAsString();
-//
-//            patientBuilder.id(jsonObj.get("id").getAsString())
-//                    .name(userName)
-//                    .age(jsonObj.get("age").getAsInt())
-//                    .gender(jsonObj.get("gender").getAsString())
-//                    .address(jsonObj.get("address").getAsString())
-//                    .nationality(jsonObj.get("nationality").getAsString())
-//                    .ppsNumber(jsonObj.get("pps").getAsString())
-//                    .gpNumber(gpNumber)
-//                    .ethAddress(jsonObj.get("ethAddress").getAsString())
-//                    .secretKey(jsonObj.get("secretKey").getAsString());
-//
-//            //save patient
-//            patientRepository.save(patientBuilder.build());
-//
-//            //add gp as trusted gp for patient...
-//            Patient patient = patientRepository.findByName(userName);
-//            patient.addTrustedGP(gpName, gpEthAddress);
-//            patientRepository.save(patient);
-//
-//            return ResponseEntity.accepted().build();
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//    }
-
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getSecret")
     public String getSecret(@RequestParam(value = "userName") String userName){
@@ -140,6 +96,7 @@ public class PatientController {
         JsonObject jsonObj;
         String encryptedDocument;
         Encryption enc = new Encryption();
+        Decryption dec = new Decryption();
 
         JsonParser parser = new JsonParser();
         JsonReader reader = new JsonReader(new StringReader(json));
@@ -152,7 +109,8 @@ public class PatientController {
         String record = jsonObj.get("record").getAsString();
 
         try {
-            encryptedDocument = enc.encrypt2layer(record, patientSecret);
+            String patientDecryptedSecret = dec.decrypt2layer(patientSecret, patient.getEthAddress());
+            encryptedDocument = enc.encrypt2layer(record, patientDecryptedSecret);
             return encryptedDocument;
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,11 +133,12 @@ public class PatientController {
 
         String ppsNumber = jsonObj.get("ppsNumber").getAsString();
         Patient patient = patientRepository.findByPpsNumber(ppsNumber);
-        String patientSecret = patient.getSecretKey();
+        String patientEncryptedSecret = patient.getSecretKey();
         String encryptedRecord = jsonObj.get("encryptedRecord").getAsString();
 
         try {
-            record = dec.decrypt2layer(encryptedRecord, patientSecret);
+            String patientDecryptedSecret = dec.decrypt2layer(patientEncryptedSecret, patient.getEthAddress());
+            record = dec.decrypt2layer(encryptedRecord, patientDecryptedSecret);
             return record;
         } catch (Exception e) {
             e.printStackTrace();

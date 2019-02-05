@@ -85,6 +85,7 @@ public class UserController {
             String gpName = jsonObj.get("gpName").getAsString();
             String gpEthAddress = jsonObj.get("gpEthAddress").getAsString();
             String userName = jsonObj.get("name").getAsString();
+            String encryptedPassword = enc.encrypt2layer(jsonObj.get("secretKey").getAsString(), jsonObj.get("ethAddress").getAsString());
 
             patientBuilder.id(jsonObj.get("id").getAsString())
                     .name(userName)
@@ -95,7 +96,7 @@ public class UserController {
                     .ppsNumber(jsonObj.get("pps").getAsString())
                     .gpNumber(gpNumber)
                     .ethAddress(jsonObj.get("ethAddress").getAsString())
-                    .secretKey(jsonObj.get("secretKey").getAsString());
+                    .secretKey(encryptedPassword);
 
             //save patient
             patientRepository.save(patientBuilder.build());
@@ -106,7 +107,6 @@ public class UserController {
             patientRepository.save(patient);
 
             //ecrypt password and save
-            String encryptedPassword = enc.encrypt2layer(patient.getSecretKey(), jsonObj.get("ethAddress").getAsString());
             userRepository.save(new User(patient.getName(), encryptedPassword));
 
             return ResponseEntity.accepted().build();
@@ -151,12 +151,10 @@ public class UserController {
                     e.printStackTrace();
                 }
             }
-
             return false;
         } else {
             return false;
         }
-
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

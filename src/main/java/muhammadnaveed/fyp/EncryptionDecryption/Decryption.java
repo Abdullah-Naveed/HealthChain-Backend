@@ -35,11 +35,11 @@ public class Decryption {
         byte[] decryptedTextBytes = null;
         try {
             decryptedTextBytes = cipher.doFinal(encryptedTextBytes);
+            return new String(decryptedTextBytes);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
+            return "";
         }
-
-        return new String(decryptedTextBytes);
     }
 
     public String decrypt2layer(String content, String password) throws Exception {
