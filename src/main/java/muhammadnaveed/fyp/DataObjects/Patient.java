@@ -88,6 +88,12 @@ public class Patient {
         this.trustedGPs.add(map);
     }
 
+    public void removeTrustedGP(String GPName, String GPEthAddress){
+        HashMap<String, String> map = new HashMap<>();
+        map.put(GPName, GPEthAddress);
+        this.trustedGPs.remove(map);
+    }
+
     @Override
     public String toString() {
         return "Patient{" +

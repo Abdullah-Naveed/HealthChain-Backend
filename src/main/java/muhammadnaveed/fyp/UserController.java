@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -184,6 +186,61 @@ public class UserController {
             patient = patientRepository.findByName(userName);
             return patient.getEthAddress();
         }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getAllUsers")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/addTrustedGP")
+    public ResponseEntity addTrustedGP(@RequestParam Map<String,String> requestParams){
+        String patientName = requestParams.get("patientName");
+        String gpName = requestParams.get("gpName");
+        Patient patient = patientRepository.findByName(patientName);
+        GP gp = gpRepository.findByName(gpName);
+
+        if(patient!=null && gp!=null){
+            patient.addTrustedGP(gp.getName(), gp.getEthAddress());
+            gp.addPatient(patient);
+            patientRepository.save(patient);
+            gpRepository.save(gp);
+            return ResponseEntity.accepted().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/removeTrustedGP")
+    public ResponseEntity removeTrustedGP(@RequestParam Map<String,String> requestParams){
+        String patientName = requestParams.get("patientName");
+        String gpName = requestParams.get("gpName");
+        Patient patient = patientRepository.findByName(patientName);
+        GP gp = gpRepository.findByName(gpName);
+
+        if(patient!=null && gp!=null){
+            patient.removeTrustedGP(gp.getName(), gp.getEthAddress());
+
+            List<Patient> allPatients = new ArrayList<>(gp.getPatients());
+
+            for(Patient p : allPatients){
+                if(p.getName().equals(patient.getName())){
+                    gp.removePatient(p);
+                }
+            }
+
+            patientRepository.save(patient);
+            gpRepository.save(gp);
+            return ResponseEntity.accepted().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 }

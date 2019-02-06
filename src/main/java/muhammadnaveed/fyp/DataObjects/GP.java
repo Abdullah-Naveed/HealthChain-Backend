@@ -72,10 +72,8 @@ public class GP {
         this.patients.add(patient);
     }
 
-    public GP removePatient(Patient patient) {
+    public void removePatient(Patient patient) {
         this.patients.remove(patient);
-        patient.setGpNumber(null);
-        return this;
     }
 
     @Override

@@ -137,4 +137,19 @@ public class GPController {
         return gp.getEthAddress();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getGPs")
+    public String getAllGPs() {
+        String json = "";
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            json = ow.writeValueAsString(gpRepository.findAll());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+//        List<GP> gps = new ArrayList<>(gpRepository.findAll());
+//        return new Gson().toJson(gps);
+        return json;
+    }
+
 }
