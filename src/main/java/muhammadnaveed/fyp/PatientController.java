@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 @RestController
@@ -145,6 +147,47 @@ public class PatientController {
         }
 
         return null;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/getSecretAndPps")
+    public ArrayList<String> getSecretAndPps(@RequestParam(value = "userName") String userName){
+        Decryption dec = new Decryption();
+        ArrayList<String> arrayList = new ArrayList<>();
+        Patient patient = patientRepository.findByName(userName);
+        String decryptedPassword;
+        String ppsNumber;
+
+        try {
+            decryptedPassword = dec.decrypt2layer(patient.getSecretKey(), patient.getEthAddress());
+            ppsNumber = patient.getPpsNumber();
+            arrayList.add(decryptedPassword);
+            arrayList.add(ppsNumber);
+            return arrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/getDecryptedRecord")
+    public String getRecord(@RequestParam Map<String,String> requestParams){
+        String userName = requestParams.get("name");
+        String encryptedRecord = requestParams.get("encryptedRecord");
+        Decryption dec = new Decryption();
+        Patient patient = patientRepository.findByName(userName);
+        String patientEncryptedSecret = patient.getSecretKey();
+
+        try {
+            String patientDecryptedSecret = dec.decrypt2layer(patientEncryptedSecret, patient.getEthAddress());
+            return dec.decrypt2layer(encryptedRecord, patientDecryptedSecret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }

@@ -56,7 +56,6 @@ public class GPController {
         return json;
     }
 
-    //TODO need to make sure they are created on start of application!
     @PostMapping(value = "/addGP", consumes = "application/json")
     public ResponseEntity addGP(@RequestBody String json){
         JsonObject jsonObj;
