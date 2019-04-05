@@ -38,57 +38,101 @@ public class Patient {
         this.secretKey = secretKey;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getAge() { return age; }
+    public int getAge() {
+        return age;
+    }
 
-    public void setAge(int age) { this.age = age; }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-    public String getGender() { return gender; }
+    public String getGender() {
+        return gender;
+    }
 
-    public void setGender(String gender) { this.gender = gender; }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getNationality() { return nationality; }
+    public String getNationality() {
+        return nationality;
+    }
 
-    public void setNationality(String nationality) { this.nationality = nationality; }
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
 
-    public String getPpsNumber() { return ppsNumber; }
+    public String getPpsNumber() {
+        return ppsNumber;
+    }
 
-    public void setPpsNumber(String ppsNumber) { this.ppsNumber = ppsNumber; }
+    public void setPpsNumber(String ppsNumber) {
+        this.ppsNumber = ppsNumber;
+    }
 
-    public String getGpNumber() { return gpNumber; }
+    public String getGpNumber() {
+        return gpNumber;
+    }
 
-    public void setGpNumber(String gpNumber) { this.gpNumber = gpNumber; }
+    public void setGpNumber(String gpNumber) {
+        this.gpNumber = gpNumber;
+    }
 
-    public String getEthAddress() { return ethAddress; }
+    public String getEthAddress() {
+        return ethAddress;
+    }
 
-    public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
+    public void setEthAddress(String ethAddress) {
+        this.ethAddress = ethAddress;
+    }
 
-    public String getSecretKey() { return secretKey; }
+    public String getSecretKey() {
+        return secretKey;
+    }
 
-    public void setSecretKey(String secretKey) { this.secretKey = secretKey; }
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
 
-    public ArrayList<HashMap<String, String>> getTrustedGPs() { return trustedGPs; }
+    public ArrayList<HashMap<String, String>> getTrustedGPs() {
+        return trustedGPs;
+    }
 
-    public void setTrustedGPs(ArrayList<HashMap<String, String>> trustedGPs) { this.trustedGPs = trustedGPs; }
+    public void setTrustedGPs(ArrayList<HashMap<String, String>> trustedGPs) {
+        this.trustedGPs = trustedGPs;
+    }
 
-    public void addTrustedGP(String GPName, String GPEthAddress){
+    public void addTrustedGP(String GPName, String GPEthAddress) {
         HashMap<String, String> map = new HashMap<>();
         map.put(GPName, GPEthAddress);
         this.trustedGPs.add(map);
     }
 
-    public void removeTrustedGP(String GPName, String GPEthAddress){
+    public void removeTrustedGP(String GPName, String GPEthAddress) {
         HashMap<String, String> map = new HashMap<>();
         map.put(GPName, GPEthAddress);
         this.trustedGPs.remove(map);

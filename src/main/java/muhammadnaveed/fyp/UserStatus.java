@@ -1,7 +1,6 @@
 package muhammadnaveed.fyp;
 
-public class UserStatus
-{
+public class UserStatus {
     // static variable single_instance of type UserStatus
     private static UserStatus single_instance = null;
 
@@ -9,7 +8,8 @@ public class UserStatus
     private String userName;
 
     // private constructor restricted to this class itself
-    private UserStatus(){}
+    private UserStatus() {
+    }
 
     // static method to create instance of UserStatus class
     public static UserStatus getInstance() {

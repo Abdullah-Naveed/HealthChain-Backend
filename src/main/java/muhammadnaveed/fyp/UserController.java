@@ -36,9 +36,9 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/registerGP", consumes = "application/json")
-    public ResponseEntity registerGP(@RequestBody String json){
+    public ResponseEntity registerGP(@RequestBody String json) {
         JsonObject jsonObj;
-        GP.GPBuilder gpBuilder =  new GP.GPBuilder();
+        GP.GPBuilder gpBuilder = new GP.GPBuilder();
         Encryption enc = new Encryption();
 
         try {
@@ -64,7 +64,7 @@ public class UserController {
             //save user in user repo
             userRepository.save(new User(jsonObj.get("name").getAsString(), encryptedPassword));
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -113,7 +113,7 @@ public class UserController {
 
             return ResponseEntity.accepted().build();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -122,7 +122,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/login")
-    public Boolean login(@RequestParam Map<String,String> requestParams) {
+    public Boolean login(@RequestParam Map<String, String> requestParams) {
         UserStatus userStatus = UserStatus.getInstance();
         String userName = requestParams.get("userName");
         String password = requestParams.get("password");
@@ -131,9 +131,9 @@ public class UserController {
         if (userName == null) {
             return false;
         } else if (userName.equals(userRepository.findByName(userName).getName())) {
-            if(userName.startsWith("Dr")){
+            if (userName.startsWith("Dr")) {
                 try {
-                    if(password.equals(dec.decrypt2layer(userRepository.findByName(userName).getPassword(), gpRepository.findByName(userName).getEthAddress()))){
+                    if (password.equals(dec.decrypt2layer(userRepository.findByName(userName).getPassword(), gpRepository.findByName(userName).getEthAddress()))) {
                         //if equal then log in or else throw exception....
                         userStatus.setUserName(userName);
                         return true;
@@ -141,10 +141,10 @@ public class UserController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 try {
                     Patient patient = patientRepository.findByName(userName);
-                    if(password.equals(dec.decrypt2layer(userRepository.findByName(userName).getPassword(),patient.getEthAddress()))){
+                    if (password.equals(dec.decrypt2layer(userRepository.findByName(userName).getPassword(), patient.getEthAddress()))) {
                         //if equal then log in or else throw exception....
                         userStatus.setUserName(userName);
                         return true;
@@ -182,7 +182,7 @@ public class UserController {
         if (userName.startsWith("Dr")) {
             gp = gpRepository.findByName(userName);
             return gp.getEthAddress();
-        }else{
+        } else {
             patient = patientRepository.findByName(userName);
             return patient.getEthAddress();
         }
@@ -194,22 +194,21 @@ public class UserController {
         return userRepository.findAll();
     }
 
-
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/addTrustedGP")
-    public ResponseEntity addTrustedGP(@RequestParam Map<String,String> requestParams){
+    public ResponseEntity addTrustedGP(@RequestParam Map<String, String> requestParams) {
         String patientName = requestParams.get("patientName");
         String gpName = requestParams.get("gpName");
         Patient patient = patientRepository.findByName(patientName);
         GP gp = gpRepository.findByName(gpName);
 
-        if(patient!=null && gp!=null){
+        if (patient != null && gp != null) {
             patient.addTrustedGP(gp.getName(), gp.getEthAddress());
             gp.addPatient(patient);
             patientRepository.save(patient);
             gpRepository.save(gp);
             return ResponseEntity.accepted().build();
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
         }
 
@@ -217,19 +216,19 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/removeTrustedGP")
-    public ResponseEntity removeTrustedGP(@RequestParam Map<String,String> requestParams){
+    public ResponseEntity removeTrustedGP(@RequestParam Map<String, String> requestParams) {
         String patientName = requestParams.get("patientName");
         String gpName = requestParams.get("gpName");
         Patient patient = patientRepository.findByName(patientName);
         GP gp = gpRepository.findByName(gpName);
 
-        if(patient!=null && gp!=null){
+        if (patient != null && gp != null) {
             patient.removeTrustedGP(gp.getName(), gp.getEthAddress());
 
             List<Patient> allPatients = new ArrayList<>(gp.getPatients());
 
-            for(Patient p : allPatients){
-                if(p.getName().equals(patient.getName())){
+            for (Patient p : allPatients) {
+                if (p.getName().equals(patient.getName())) {
                     gp.removePatient(p);
                 }
             }
@@ -237,7 +236,7 @@ public class UserController {
             patientRepository.save(patient);
             gpRepository.save(gp);
             return ResponseEntity.accepted().build();
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
         }
 

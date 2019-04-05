@@ -67,13 +67,21 @@ public class MedicalRecord {
         this.notes = notes;
     }
 
-    public String getPrescription() { return prescription; }
+    public String getPrescription() {
+        return prescription;
+    }
 
-    public void setPrescription(String prescription) { this.prescription = prescription; }
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
+    }
 
-    public String getOutcome() { return outcome; }
+    public String getOutcome() {
+        return outcome;
+    }
 
-    public void setOutcome(String outcome) { this.outcome = outcome; }
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
 
 
     public static final class MedicalRecordBuilder {

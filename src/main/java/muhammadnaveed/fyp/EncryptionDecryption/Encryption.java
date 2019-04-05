@@ -27,15 +27,15 @@ public class Encryption {
         random.nextBytes(bytes);
         // Derive the key
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        PBEKeySpec spec = new PBEKeySpec(patientSecret.toCharArray(), bytes,65556,256);
+        PBEKeySpec spec = new PBEKeySpec(patientSecret.toCharArray(), bytes, 65556, 256);
         SecretKey secretKey = factory.generateSecret(spec);
         SecretKeySpec secret = new SecretKeySpec(secretKey.getEncoded(), "AES");
         //encrypting the record
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secret);
         AlgorithmParameters params = cipher.getParameters();
-        ivBytes =   params.getParameterSpec(IvParameterSpec.class).getIV();
-        byte[] encryptedTextBytes =                          cipher.doFinal(record.getBytes(StandardCharsets.UTF_8));
+        ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
+        byte[] encryptedTextBytes = cipher.doFinal(record.getBytes(StandardCharsets.UTF_8));
         //prepend salt and vi
         byte[] buffer = new byte[bytes.length + ivBytes.length + encryptedTextBytes.length];
         System.arraycopy(bytes, 0, buffer, 0, bytes.length);
@@ -47,6 +47,7 @@ public class Encryption {
     public String encrypt2layer(String content, String password) throws Exception {
         Encryption enc = new Encryption();
         String pwd = UUID.randomUUID().toString();
+
         // Encrypt the Document using the UUID
         String encDoc = enc.encrypt(content, pwd);
 
@@ -54,7 +55,7 @@ public class Encryption {
         // and convert it to JSON
         String json = mapper.writeValueAsString(new EncryptedDocument(pwd, encDoc));
 
-        // Encrypt the JSON using the password
+        // Encrypt the JSON using the password & return
         return enc.encrypt(json, password);
     }
 }

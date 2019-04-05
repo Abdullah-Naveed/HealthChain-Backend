@@ -23,32 +23,31 @@ import java.util.Map;
 public class PatientController {
 
     private PatientRepository patientRepository;
-    private static ObjectMapper mapper = new ObjectMapper();
 
-    public PatientController(PatientRepository patientRepository){
+    public PatientController(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/name")
-    public Patient getPatient(@RequestParam(value = "userName") String userName){
+    public Patient getPatient(@RequestParam(value = "userName") String userName) {
         return patientRepository.findByName(userName);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getSecret")
-    public String getSecret(@RequestParam(value = "userName") String userName){
+    public String getSecret(@RequestParam(value = "userName") String userName) {
         Patient patient = patientRepository.findByName(userName);
-        if(patient.getSecretKey() == null){
+        if (patient.getSecretKey() == null) {
             return null;
-        }else{
+        } else {
             return patient.getSecretKey();
         }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/setSecret", consumes = "application/json")
-    public ResponseEntity setSecret(@RequestBody String json){
+    public ResponseEntity setSecret(@RequestBody String json) {
         JsonObject jsonObj;
 
         try {
@@ -61,15 +60,15 @@ public class PatientController {
             String secret = jsonObj.get("secret").getAsString();
 
             Patient patient = patientRepository.findByName(userName);
-            if(patient.getSecretKey() == null){
+            if (patient.getSecretKey() == null) {
                 patient.setSecretKey(secret);
                 patientRepository.save(patient);
                 return ResponseEntity.accepted().build();
-            }else{
+            } else {
                 return ResponseEntity.badRequest().build();
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -78,7 +77,7 @@ public class PatientController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getTrustedGPs")
-    public String getTrustedGPs(@RequestParam(value = "userName") String userName){
+    public String getTrustedGPs(@RequestParam(value = "userName") String userName) {
         String json = "";
         Patient patient = patientRepository.findByName(userName);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -151,7 +150,7 @@ public class PatientController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/getSecretAndPps")
-    public ArrayList<String> getSecretAndPps(@RequestParam(value = "userName") String userName){
+    public ArrayList<String> getSecretAndPps(@RequestParam(value = "userName") String userName) {
         Decryption dec = new Decryption();
         ArrayList<String> arrayList = new ArrayList<>();
         Patient patient = patientRepository.findByName(userName);
@@ -173,7 +172,7 @@ public class PatientController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/getDecryptedRecord")
-    public String getRecord(@RequestParam Map<String,String> requestParams){
+    public String getRecord(@RequestParam Map<String, String> requestParams) {
         String userName = requestParams.get("name");
         String encryptedRecord = requestParams.get("encryptedRecord");
         Decryption dec = new Decryption();

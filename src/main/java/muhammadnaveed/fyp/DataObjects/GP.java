@@ -40,33 +40,61 @@ public class GP {
         this.id = id;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getAge() { return age; }
+    public int getAge() {
+        return age;
+    }
 
-    public void setAge(int age) { this.age = age; }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-    public String getGender() { return gender; }
+    public String getGender() {
+        return gender;
+    }
 
-    public void setGender(String gender) { this.gender = gender; }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getGpNumber() { return gpNumber; }
+    public String getGpNumber() {
+        return gpNumber;
+    }
 
-    public void setGpNumber(String gpNumber) { this.gpNumber = gpNumber; }
+    public void setGpNumber(String gpNumber) {
+        this.gpNumber = gpNumber;
+    }
 
-    public String getEthAddress() { return ethAddress; }
+    public String getEthAddress() {
+        return ethAddress;
+    }
 
-    public void setEthAddress(String ethAddress) { this.ethAddress = ethAddress; }
+    public void setEthAddress(String ethAddress) {
+        this.ethAddress = ethAddress;
+    }
 
-    public List<Patient> getPatients() { return patients; }
+    public List<Patient> getPatients() {
+        return patients;
+    }
 
-    public void setPatients(List<Patient> patients) { this.patients = patients; }
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 
     public void addPatient(Patient patient) {
         this.patients.add(patient);

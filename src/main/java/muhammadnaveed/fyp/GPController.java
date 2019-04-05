@@ -20,13 +20,13 @@ public class GPController {
 
     private GPRepository gpRepository;
 
-    public GPController(GPRepository gpRepository){
+    public GPController(GPRepository gpRepository) {
         this.gpRepository = gpRepository;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getGp")
-    public String getGP(@RequestParam(value = "userName") String userName){
+    public String getGP(@RequestParam(value = "userName") String userName) {
         String json = "";
         GP gp = gpRepository.findByName(userName);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -42,22 +42,22 @@ public class GPController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getListOfPatients")
-    public String getListOfPatients(@RequestParam(value = "userName") String userName){
+    public String getListOfPatients(@RequestParam(value = "userName") String userName) {
         String json = "";
         GP gp = gpRepository.findByName(userName);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
         try {
             json = ow.writeValueAsString(gp.getPatients());
+            return json;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-        return json;
+        return null;
     }
 
     @PostMapping(value = "/addGP", consumes = "application/json")
-    public ResponseEntity addGP(@RequestBody String json){
+    public ResponseEntity addGP(@RequestBody String json) {
         JsonObject jsonObj;
         String id;
         String name;
@@ -85,7 +85,7 @@ public class GPController {
 
             return ResponseEntity.accepted().build();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -93,7 +93,7 @@ public class GPController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/savePatient", consumes = "application/json")
-    public ResponseEntity savePatient(@RequestBody String json){
+    public ResponseEntity savePatient(@RequestBody String json) {
         JsonObject jsonObj;
         Patient.PatientBuilder patientBuilder = new Patient.PatientBuilder();
         GP gp;
@@ -122,7 +122,7 @@ public class GPController {
 
             return ResponseEntity.accepted().build();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -131,7 +131,7 @@ public class GPController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/getEthAddress")
-    public String getEthAddress(@RequestParam(value = "userName") String userName){
+    public String getEthAddress(@RequestParam(value = "userName") String userName) {
         GP gp = gpRepository.findByName(userName);
         return gp.getEthAddress();
     }
@@ -146,8 +146,7 @@ public class GPController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-//        List<GP> gps = new ArrayList<>(gpRepository.findAll());
-//        return new Gson().toJson(gps);
+
         return json;
     }
 
