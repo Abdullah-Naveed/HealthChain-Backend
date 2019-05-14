@@ -6,6 +6,8 @@ Health Chain is an Electronic Health Record (EHR) system which uses blockchain t
 
 ## Getting Started
 
+### Back-end Application set up:
+
 - Open the HealthChain application using an IDE such as IntelliJ
 - Ensure you have MongoDB installed
 - Run ‘mongod’ in the terminal
